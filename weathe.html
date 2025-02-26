@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather App</title>
+
+  <!-- CSS Styling within HTML -->
+  <style>
+    /* General Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      background: url('https://res.cloudinary.com/dhori2md6/image/upload/v1740553159/3d-monsoon-season-sale_gi36pk.jpg') no-repeat center center/cover;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    /* Main container styling */
+    .weather-container {
+      background-color: rgba(255, 255, 255, 0.2);
+      padding: 40px;
+      border-radius: 15px;
+      backdrop-filter: blur(10px);
+      text-align: center;
+      box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
+      width: 90%;
+      max-width: 400px;
+      color: white;
+    }
+
+    /* Heading */
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+
+    /* Input Group */
+    .input-group {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .input-group input {
+      padding: 10px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 5px;
+      margin-right: 10px;
+      width: 60%;
+      background: rgba(255, 255, 255, 0.8);
+      color: #000;
+    }
+
+    .input-group button {
+      padding: 10px;
+      background-color: #2980b9;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .input-group button:hover {
+      background-color: #1d6a8c;
+    }
+
+    /* Weather info display */
+    .weather-info {
+      margin-top: 20px;
+      display: none;
+    }
+
+    .weather-info p {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+    }
+
+    .weather-icon {
+      width: 100px;
+      height: 100px;
+      margin-bottom: 20px;
+    }
+
+    /* Error Message */
+    #errorMessage {
+      color: #ff4f4f;
+      font-size: 1rem;
+      margin-top: 15px;
+    }
+
+    /* Media Queries for smaller screens */
+    @media (max-width: 500px) {
+      h1 {
+        font-size: 2rem;
+      }
+      
+      .input-group input {
+        width: 70%;
+      }
+      
+      .input-group button {
+        padding: 10px 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="weather-container">
+    <h1>Weather App</h1>
+    
+    <div class="input-group">
+      <input type="text" id="cityInput" placeholder="Enter city name">
+      <button id="getWeatherBtn">Get Weather</button>
+    </div>
+
+    <div id="weatherInfo" class="weather-info">
+      <img src=" " id="weatherIcon" class="weather-icon" />
+      <p id="cityName">City: --</p>
+      <p id="temperature">Temperature: -- °C</p>
+      <p id="humidity">Humidity: -- %</p>
+      <p id="description">Description: --</p>
+    </div>
+
+    <p id="errorMessage"></p>
+  </div>
+
+  <!-- JavaScript within HTML -->
+  <script>
+    // OpenWeatherMap API Key and Base URL
+    const apiKey = '07a057d8e1ece34b4a8307885e121dc8'; // Provided API Key
+    const apiBaseUrl = 'https://api.openweathermap.org/data/2.5/weather';
+
+    // DOM elements
+    const getWeatherBtn = document.getElementById('getWeatherBtn');
+    const cityInput = document.getElementById('cityInput');
+    const cityName = document.getElementById('cityName');
+    const temperature = document.getElementById('temperature');
+    const humidity = document.getElementById('humidity');
+    const description = document.getElementById('description');
+    const weatherIcon = document.getElementById('weatherIcon');
+    const errorMessage = document.getElementById('errorMessage');
+    const weatherInfo = document.getElementById('weatherInfo');
+
+    // Function to fetch weather data
+    const getWeather = async (city) => {
+      try {
+        const response = await fetch(`${apiBaseUrl}?q=${city}&appid=${apiKey}&units=metric`);
+        const data = await response.json();
+
+        if (response.ok) {
+          // Update the DOM with the weather data
+          cityName.textContent = `City: ${data.name}`;
+          temperature.textContent = `Temperature: ${data.main.temp} °C`;
+          humidity.textContent = `Humidity: ${data.main.humidity} %`;
+          description.textContent = `Description: ${data.weather[0].description}`;
+
+          // Display weather icon
+          const iconCode = data.weather[0].icon;
+          weatherIcon.src = `http://openweathermap.org/img/wn/${iconCode}@2x.png`;
+          weatherIcon.alt = data.weather[0].description;
+
+          // Show the weather info section
+          weatherInfo.style.display = 'block';
+          errorMessage.textContent = ''; // Clear any previous error message
+        } else {
+          // Handle city not found or API errors
+          errorMessage.textContent = `Error: ${data.message}`;
+          weatherInfo.style.display = 'none';
+        }
+      } catch (error) {
+        // Handle network or fetch errors
+        errorMessage.textContent = 'Error: Unable to fetch weather data.';
+        weatherInfo.style.display = 'none';
+      }
+    };
+
+    // Event listener for button click
+    getWeatherBtn.addEventListener('click', () => {
+      const city = cityInput.value.trim();
+      if (city) {
+        getWeather(city);
+      } else {
+        errorMessage.textContent = 'Please enter a city name.';
+        weatherInfo.style.display = 'none';
+      }
+    });
+  </script>
+
+</body>
+</html>
