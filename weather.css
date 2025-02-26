@@ -1,0 +1,108 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Arial', sans-serif;
+    background: url('https://res.cloudinary.com/dhori2md6/image/upload/v1740553159/3d-monsoon-season-sale_gi36pk.jpg') no-repeat center center/cover;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-size: cover;
+  }
+
+  /* Main container styling */
+  .weather-container {
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 40px;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    text-align: center;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 400px;
+    color: white;
+  }
+
+  /* Heading */
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+  }
+
+  /* Input Group */
+  .input-group {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+
+  .input-group input {
+    padding: 10px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    margin-right: 10px;
+    width: 60%;
+    background: rgba(255, 255, 255, 0.8);
+    color: #000;
+  }
+
+  .input-group button {
+    padding: 10px;
+    background-color: #2980b9;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .input-group button:hover {
+    background-color: #1d6a8c;
+  }
+
+  /* Weather info display */
+  .weather-info {
+    margin-top: 20px;
+    display: none;
+  }
+
+  .weather-info p {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+
+  .weather-icon {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 20px;
+  }
+
+  /* Error Message */
+  #errorMessage {
+    color: #ff4f4f;
+    font-size: 1rem;
+    margin-top: 15px;
+  }
+
+  /* Media Queries for smaller screens */
+  @media (max-width: 500px) {
+    h1 {
+      font-size: 2rem;
+    }
+    
+    .input-group input {
+      width: 70%;
+    }
+    
+    .input-group button {
+      padding: 10px 15px;
+    }
+  }
